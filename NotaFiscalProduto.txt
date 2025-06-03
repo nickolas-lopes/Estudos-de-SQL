@@ -1,0 +1,63 @@
+-- 3 - NOTA FISCAL
+CREATE DATABASE L3_EX03
+USE L3_EX03
+	CREATE TABLE tipoNF(
+	id_tipoNF INT NOT NULL IDENTITY(1,1),
+	ds_tipoNF VARCHAR(10) NOT NULL,
+	abr_tipoNF CHAR(5) NOT NULL
+	CONSTRAINT pk_tipoNF PRIMARY KEY (id_tipoNF)
+	)
+	CREATE TABLE cliente(
+	id_cliente INT NOT NULL IDENTITY(1,1),
+	nm_cliente CHAR(20) NOT NULL
+	CONSTRAINT pk_cliente PRIMARY KEY (id_cliente)
+	)
+	CREATE TABLE unidadeMedida(
+	id_unidadeMedida INT NOT NULL IDENTITY(1,1),
+	nm_unidadeMedida CHAR(10) NOT NULL,
+	abr_unidaddeMedida CHAR(2) NOT NULL
+	CONSTRAINT pk_unidadeMedida PRIMARY KEY (id_unidadeMedida)
+	)
+	CREATE TABLE fabricante(
+	id_fabricante INT NOT NULL IDENTITY(1,1),
+	nm_fabricante VARCHAR(20) NOT NULL
+	CONSTRAINT pk_fabricante PRIMARY KEY (id_fabricante)
+	)
+	CREATE TABLE nf(
+	id_nf INT NOT NULL IDENTITY(1,1),
+	nr_NR BIGINT NOT NULL,
+	nr_serieNF BIGINT NOT NULL,
+	dt_emissao SMALLDATETIME NOT NULL,
+	vlr_total DECIMAL(10, 2) NOT NULL,
+	id_cliente INT NOT NULL,
+	id_tipoNF INT NOT NULL
+	CONSTRAINT pk_nf PRIMARY KEY (id_nf),
+	CONSTRAINT fk_cliente FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
+	CONSTRAINT fk_tipoNF FOREIGN KEY (id_tipoNF) REFERENCES tipoNF(id_tipoNF)
+	)
+	CREATE TABLE produto(
+	id_produto INT NOT NULL IDENTITY(1,1),
+	nm_produto CHAR(15) NOT NULL,
+	ds_produto CHAR(20) NOT NULL,
+	vlr_precoVenda DECIMAL(5,2) NOT NULL,
+	vlr_precoCusto DECIMAL(5,2) NOT NULL,
+	vlr_peso DECIMAL(5, 2) NOT NULL,
+	vlr_volume DECIMAL(5, 2) NOT NULL,
+	id_unidadeMedidaPeso INT NOT NULL,
+	id_unidadeMedidaVol INT NOT NULL,
+	id_fabricante INT NOT NULL
+	CONSTRAINT pk_produto PRIMARY KEY (id_produto)
+	CONSTRAINT fk_unidadeMedidaPeso FOREIGN KEY (id_unidadeMedidaPeso) REFERENCES unidadeMedida(id_unidadeMedida),
+	CONSTRAINT fk_unidadeMedidaVol FOREIGN KEY (id_unidadeMedidaVol) REFERENCES unidadeMedida(id_unidadeMedida),
+	CONSTRAINT fk_fabricante FOREIGN KEY (id_fabricante) REFERENCES fabricante(id_fabricante)
+	)
+	CREATE TABLE nfItem(
+	id_nfItem INT NOT NULL IDENTITY(1,1),
+	id_nf INT NOT NULL,
+	nr_item BIGINT NOT NULL,
+	qtd_item INT NOT NULL,
+	id_produtoNFItem INT NOT NULL
+	CONSTRAINT pk_nfItem PRIMARY KEY (id_nfItem, id_nf),
+	CONSTRAINT fk_nf FOREIGN KEY (id_nf) REFERENCES nf(id_nf),
+	CONSTRAINT fk_produtoNFItem FOREIGN KEY (id_produtoNFItem)REFERENCES produto(id_produto)
+	)
