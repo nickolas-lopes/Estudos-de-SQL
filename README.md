@@ -1,7 +1,7 @@
 ﻿# Estudos-de-SQL📖👨‍💻
 Repositório criado para estudo de Structured Query Language (SQL)
 
-##🧠 O que é SQL?
+## 🧠 O que é SQL?
 SQL (Structured Query Language) é uma linguagem padrão utilizada para interagir com bancos de dados relacionais. Com ela, é possível criar, consultar, atualizar e deletar dados de forma estruturada e eficiente.
 
 SQL permite que você:
